@@ -1,0 +1,94 @@
+﻿@{
+    <h3>Palindrome Checker</h3>
+    <article>
+        <p>
+            Enter a word to check and click the 'Check' button to see if it's a palindrome:
+        </p>
+        <form>
+            <input type="text" id="input" class="input" onkeypress="checkForEnter(event)">
+            <br>
+            <a href="#" id="check" class="check">Check</a>
+        </form>
+        <div id="feedback" class="fb"></div>
+    </article>
+    <script>
+        var word = document.querySelector('#input');
+        var inputBtn = document.querySelector('#check');
+        var feedback = document.querySelector('#feedback');
+
+        var checkfb = function (fb_text) {
+            if (feedback.hasChildNodes()) {
+                feedback.replaceChild(fb_text, feedback.childNodes[0]);
+            } else {
+                feedback.appendChild(fb_text);
+            } 
+        };
+
+        var checkWord = function () {
+            var original = word.value.split('');
+            var toBeReversed = word.value.split('');
+            var reversed = toBeReversed.reverse();
+            for (var letter = 0; letter < original.length; letter++) {
+                var fb;
+                var fb_text;
+                if (reversed[letter] != original[letter]) {
+                    fb = word.value + ' is not a palindrome!';
+                    fb_text = document.createTextNode(fb);
+                    feedback.setAttribute('class', 'notpalindrome');
+                    checkfb(fb_text, fb);
+                    break;
+                } else if (letter == original.length - 1) {
+                    fb = word.value + ' is a palindrome!';
+                    fb_text = document.createTextNode(fb);
+                    feedback.setAttribute('class', 'palindrome');
+                    checkfb(fb_text); 
+                }
+            }
+        }; 
+        inputBtn.addEventListener('click', function (e) {
+            e.preventDefault();
+            checkWord();
+        });
+
+        var checkForEnter = function (e) {
+            if (e.keyCode == 13) {
+                e.preventDefault();
+                checkWord();
+            }
+        };
+    </script>
+
+    <style>
+        .check{
+            border-radius:0.25rem;
+            background-color:#000;
+            color:#fff;
+            padding:0.25rem;
+            margin:0.5rem;
+            border:2px solid #000;
+        }
+        .check:hover{
+            background-color:#777;
+        }
+        .input, .h1, p, .fb, .palindrome, .notpalindrome{
+            margin:0.5rem;
+        }
+        .h1{
+            font-family: Arial,sans-serif;
+            font-size: 2rem;
+        }
+        p, .check, .fb, .palindrome, .notpalindrome {
+            font-family: Arial,sans-serif;
+            font-size: 1rem;
+            text-decoration:none;
+        }
+        .palindrome{
+            color:#007700;
+            font-weight: bold;
+        }
+        .notpalindrome{
+            color:#770000;
+            font-weight:bold;
+        }
+    </style>
+}
